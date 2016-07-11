@@ -6,13 +6,43 @@ body{
 	background-color: white;
 	margin:10px;
 	padding:10px;
+	border-radius: 5px;
+	transition: transform 0.3s linear;/*过渡*/
+	position: relative;
+	overflow: hidden;
 }
+.photos:hover{
+	box-shadow: 0px 0px 10px #000;
+	transform: scale(1.2);
+	/*transform: rotate(50deg);*//*旋转和放大不能同时进行*/
+}
+.photos:nth-child(2n-1){
+	transform: rotate(5deg);
+}
+.photos:nth-child(2n){
+	transform: rotate(-5deg);
+}
+
+
 .photos img{
 	height:150px; 
 	display:block;
+}
+
+
+.photos:hover p{
+	bottom: 0px;
 }
 .photos p{
 	text-align: center;
 	font: "微软雅黑";
 	font-size: 18px;
+	position: absolute;
+	height: 30px;
+	bottom: -30px;
+	left:0px;
+	margin: 0px;
+	width:100%;
+	background-color: darkseagreen;
+	transition: all 0.3s linear;
 }
