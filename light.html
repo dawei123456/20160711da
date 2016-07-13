@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body{
+				transition: all 0.5s linear;
+			}
+		</style>
+		
+		<script type="text/javascript">
+//		方法二
+//		var status = true;
+//		function onoff(status){
+//			if(status == 1)
+//			{
+//				document.body.style.backgroundColor="white";
+//			}
+//			else
+//			{
+//				document.body.style.backgroundColor="black";
+//			}
+//		}
+//		         方法一
+//			function on(){
+//				document.body.style.backgroundColor="white";
+//			}
+//			function off(){
+//				document.body.style.backgroundColor="black";
+//			}
+		</script>
+	</head>
+	<body>
+		<!--方法三-->
+		<button onclick="onoff(this)">开灯</button>
+		
+		
+		
+		<!--方法二
+		<button onclick="onoff()">关灯</button>
+		<button onclick="onoff(1)">开灯</button>-->
+		
+		
+		
+	         <!--方法一
+		<button onclick="on()">开灯</button>
+		<button onclick="off()">关灯</button>-->
+	</body>
+	<!--方法三-->
+	<script type="text/javascript">
+		function onoff(btn){
+			if(btn.innerHTML == "关灯"){
+				document.body.style.backgroundColor = "black";
+				btn.innerHTML = "开灯"
+			}
+			else{
+				document.body.style.backgroundColor = "white";
+				btn.innerHTML = "关灯"
+			}
+		}
+	</script>
+</html>

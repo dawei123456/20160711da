@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+//		外层循环是y坐标方向
+//			for(var i= 1;i <= 10;i++){
+//				document.write("第" + i + "个");
+//				for(var j= 1;j <= 10;j++){
+//					document.write("第" + i + "号&nbsp;");
+//				}
+//				document.write("稍等2分钟");
+//			}
+//			i++ 10个;++i 10个;没有区别
+
+
+
+
+
+
+
+//*
+//**
+//***
+//****
+//方法一
+//for(var i =1;i<=10;i++){
+//	for(var j=1;j<=i;j++){
+//		document.write("*&nbsp;");
+//	}
+//	document.write("<br>");
+//}
+
+
+
+
+//方法二
+//var str ="";
+//for(var i=0;i<10;i++){
+//	str += "*";
+//	document.write(str"&nbsp;");
+//	document.write("<br>");
+//}
+
+
+//方法三
+var row=1;
+for(var i=1;i<=100;i++){
+	if(i<=(row-1)*10+row){
+		document.write("*&nbsp;");
+	}
+	if(i%10==0){
+		document.write("<br>");
+		row++;
+	}
+}
+
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

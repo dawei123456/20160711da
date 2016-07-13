@@ -2,6 +2,10 @@
 	font-family:'game';
 	src: url(汉仪雪君体简.ttf);
 }
+body,html{
+	font-family: game;
+	font-size: 16px;
+}
 .login-con{
 	background-image: url(../img/login-bg.jpg);
 	width:1200px;
@@ -39,4 +43,143 @@
 }
 .login-con button:hover{
 	cursor: pointer;
+}
+.main-con{
+	width: 1200px;
+	height: 600px;
+	margin: auto;
+	background-image: url(../img/main-bg.jpg);
+	position: relative;
+}
+.main-con .userinfo{
+	position: absolute;
+	width: 200px;
+	height: 150px;
+	top: 70px;
+	left: 129px;
+}
+.main-con .online{
+	position: absolute;
+	width: 285px;
+	height: 175px;
+	left:100px;
+	bottom: 135px;
+}
+.main-con .online .head{
+	/*overflow: hidden;与html中style:"clear:both"作用相同，解决浮动*/
+	margin-bottom: 10px;
+}
+.main-con .online .head:after{
+	content: '';
+	display: block;
+	clear: both;
+}/*解决浮动的问题*/
+.main-con .online .head:before{
+	content: '';
+	display: block;
+	clear: both;
+}
+.main-con .online .head h3{
+	float: left;
+	margin: 0px;
+}
+.main-con .online .head span{
+	float: right;
+}
+.main-con .online .body{
+	height: 140px;
+	overflow-y: scroll;
+}
+.main-con .online .body table{
+	width: 100%;
+}
+.main-con .online .body table tr{
+	height: 30px;
+}
+.main-con .room{
+	width: 650px;
+	height: 170px;
+	top: 50px;
+	right: 90px;
+	position: absolute;
+}
+.main-con .room .head{
+	text-align: center;
+}
+.main-con .room .body{
+	height: 100px;
+	overflow-y: scroll;
+}
+.main-con .room .body div{
+	float: left;
+	margin: 10px 20px;
+	text-align: center;
+}
+.main-con .chat{
+	position: absolute;
+	width: 620px;
+	height: 270px;
+	right: 100px;
+	bottom: 50px;
+}
+.main-con .chat .head{
+	text-align: center;
+}
+.main-con .chat .body{
+	height: 170px;
+}
+.main-con .chat .body ul{
+	list-style: none;
+	margin: 0px;/*默认有margin和padding,要去掉*/
+	padding: 0px;
+}
+.main-con .chat .body ul li{
+	height: 30px;
+	line-height: 30px;/*用于居中*/
+}
+.main-con .chat .footer{
+	text-align: center;
+}
+.main-con .chat .footer input[type=text]{
+	width: 250px;
+	border: 2px solid black;
+	height: 25px;
+	border-radius:10px;
+}
+.main-con .chat .footer button{
+	font-family:'game' ;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 2px solid black;
+	height: 30px;
+	background-color: transparent;
+}
+#roomname{
+	position: absolute;
+	left: 80px;
+	bottom: 45px;
+	height: 35px;
+	width: 170px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	text-align: center;
+	font-family: 'game';
+	color: white;
+}
+#createroom{
+	position: absolute;
+	left: 285px;
+	bottom: 44px;
+	border: none;
+	outline: none;
+	text-align: center;
+	font-family: 'game';
+	color: white;
+	font-size: 20px;
+	width: 70px;
+	background-color: transparent;
+}
+#createroom:hover{
+	color: green;
 }
