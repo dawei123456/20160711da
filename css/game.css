@@ -127,6 +127,7 @@ body,html{
 }
 .main-con .chat .body{
 	height: 170px;
+	overflow-y: auto;
 }
 .main-con .chat .body ul{
 	list-style: none;
@@ -145,6 +146,9 @@ body,html{
 	border: 2px solid black;
 	height: 25px;
 	border-radius:10px;
+	outline: none;
+	font-family: game;
+	text-align: center;
 }
 .main-con .chat .footer button{
 	font-family:'game' ;

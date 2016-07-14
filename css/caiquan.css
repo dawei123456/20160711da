@@ -1,0 +1,21 @@
+.contain{
+	width: 700px;
+	margin: auto;
+}
+.contain .left{
+	float: left;
+	width: 140px;
+}
+.contain .right{
+	float: right;
+	width: 140px;
+}
+.contain img{
+	transition: all 0.5s linear;
+}
+.info{
+	width: 700px;
+	height: 120px;
+	margin: auto;
+	overflow-y: scroll;
+}

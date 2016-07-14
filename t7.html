@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jquery-1.10.2.min.js的引用</title>
+		<style type="text/css">
+			#d1{
+				width: 100px;height: 100px;background-color: deeppink;opacity: 1;
+				transition: all 0.6s linear;
+			}
+		</style>
+		
+		<script src="js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#d1").click(function(){
+					$(this).css("transform","rotate(360deg)").css("opacity",0);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="d1"></div>
+	</body>
+</html>
