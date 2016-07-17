@@ -5,9 +5,10 @@
 		<meta charset="UTF-8">
 		<title>游戏大厅</title>
 		<link rel="stylesheet" href="css/game.css" />
-		<script type="text/javascript" src="js/jquery-1.10.2.min.js" ></script>
-		<script type="text/javascript" src="js/data.js" ></script>
-		<script type="text/javascript" src="js/socket.io.js" ></script>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/socket.io.js"></script>
+		<script type="text/javascript" src="js/wuziqi.js"></script>
 	</head>
 
 	<body>
@@ -33,7 +34,7 @@
 					<h3>房间</h3>
 				</div>
 				<div class="body">
-					
+
 				</div>
 			</div>
 			<div class="chat">
@@ -51,138 +52,166 @@
 
 			<input type="" name="" id="roomname" value="" placeholder="输入房间号" />
 			<button id="createroom">创建房间</button>
+
+			<div class="game" id="game"></div>
 		</div>
 	</body>
-<script type="text/javascript">
-    var user = null;
-    var socket = io('http://localhost:3000',{
-		autoConnect : false,
-		reconnection : false
-	});
-	$(function(){
-		user = localStorage.getItem("user");
-		if(!user){
-			window.location.href = "login.html";
-			return;
-		}else{
-			user = JSON.parse(user);//反序列化
-		}
-		socket.open();//连接服务器
-		socket.on('connect',function(){
-			user.id = socket.id;//为用户赋值
-			user.status = 1;//在线状态
-			socket.emit("user.online",user);//向服务器发送上线事件
-			initUser(user);
+	<script type="text/javascript">
+		var user = null;
+		var socket = io('http://localhost:3000', {
+			autoConnect: false,
+			reconnection: false
 		});
-		socket.on("user.online",function(users){
-			initOnline(users);
-		});
-		socket.on("chat.newchat",function(chat){
-			showChat(chat,false);
-		});
-		socket.on("room.rooms",function(rooms){
-			initRoom(rooms);
-		});
-		socket.on("room.exists",function(){
-			alert("房间已经存在，创建失败！");
-		});
-		socket.on("room.createOK",function(room){
-			joinRoom(room,true);
-		});
-		socket.on("room.joinfalid",function(){
-			alert("房间已满");
-		});
-		socket.on("room.joinOK",function(room){
-			joinRoom(room,false);
-		});
-		$("#sendchat").click(function(){
-			var chat = {
-				uname : user.uname,
-				msg : $("#chatmsg").val()
+		$(function() {
+			user = localStorage.getItem("user");
+			if(!user) {
+				window.location.href = "login.html";
+				return;
+			} else {
+				user = JSON.parse(user); //反序列化
 			}
-			$("#chatmsg").val('');
-			showChat(chat,true);//自己显示
-			socket.emit("chat.send",chat);
+			socket.open(); //连接服务器
+			socket.on('connect', function() {
+				user.id = socket.id; //为用户赋值
+				user.status = 1; //在线状态
+				socket.emit("user.online", user); //向服务器发送上线事件
+				initUser(user);
+			});
+			socket.on("user.online", function(users) {
+				initOnline(users);
+			});
+			socket.on("chat.newchat", function(chat) {
+				showChat(chat, false);
+			});
+			socket.on("room.rooms", function(rooms) {
+				initRoom(rooms);
+			});
+			socket.on("room.exists", function() {
+				alert("房间已经存在，创建失败！");
+			});
+			socket.on("room.createOK", function(room) {
+				joinRoom(room, true);
+			});
+			socket.on("room.joinfalid", function() {
+				alert("房间已满");
+			});
+			socket.on("room.joinOK", function(room) {
+				joinRoom(room, false);
+			});
+			socket.on("game.start", function(flag) {
+				gameInit("game", flag);
+			});
+			socket.on("game.changedata", function(data) {
+				drawFive(data.row, data.col, data.flag);
+				status = "run";
+			});
+			$("#sendchat").click(function() {
+				var chat = {
+					uname: user.uname,
+					msg: $("#chatmsg").val()
+				}
+				$("#chatmsg").val('');
+				showChat(chat, true); //自己显示
+				socket.emit("chat.send", chat);
+			});
+			//创建房间
+			$("#createroom").click(function() {
+				socket.emit("room.createroom", $("#roomname").val());
+				$("#roomname").val('');
+			});
+
+			//		initUser( user );
+			//		initOnline( users );
+			//		initRoom(room);
+
 		});
-		//创建房间
-		$("#createroom").click(function(){
-			socket.emit("room.createroom",$("#roomname").val());
-			$("#roomname").val('');
-		});
-		
-//		initUser( user );
-//		initOnline( users );
-//		initRoom(room);
-		
-	});
-	function initUser( user ){
-		$(".userinfo h1").html(user.uname).next().html("ID:" + user.id)
-		.next().html("胜场：" + user.win + "胜率：" + (user.total ? user.win / user.total : 0) + "%");
-		//如A=（B）？C：D
-		//表示B不为0吗(或B为真吗)?如果是，A=C；如果不是，A=D。 
-	}
-	
-	function initOnline(users){
-		var html = "";
-		for(var i = 0;i < users.length;i++){
-			var temp =users[i];
-			html += '<tr>';
-			html += '<td>' + temp.uname + '</td>';
-			html += '<td>' + temp.id + '</td>';
-			html += '<td>' + getStatus(temp.status) + '</td>';
-			html += '</tr>';
+
+		function initUser(user) {
+			$(".userinfo h1").html(user.uname).next().html("ID:" + user.id)
+				.next().html("胜场：" + user.win + "胜率：" + (user.total ? user.win / user.total : 0) + "%");
+			//如A=（B）？C：D
+			//表示B不为0吗(或B为真吗)?如果是，A=C；如果不是，A=D。 
 		}
-		
-		$(".online table").html(html);
-	}
-	
-	function getStatus(status){
-		if(status == 1){
-			return "在线";
-		}else if(status == 2){
-			return "准备中";
-		}else if(status == 3){
-			return "游戏中";
-		}else{
-			return "";
+
+		function initOnline(users) {
+			var html = "";
+			for(var i = 0; i < users.length; i++) {
+				var temp = users[i];
+				html += '<tr>';
+				html += '<td>' + temp.uname + '</td>';
+				html += '<td>' + temp.id + '</td>';
+				html += '<td>' + getStatus(temp.status) + '</td>';
+				html += '</tr>';
+			}
+
+			$(".online table").html(html);
 		}
-	}
-	
-	function initRoom(rooms){
-		var html ="";
-		for(var i = 0 ; i < rooms.length;i++){
-			var temp = rooms[i];
-			html += '<div data-roomname=' + temp.roomname + '>';
-			html += '<img src="img/room.png"/>'
-			html += '<p>' + temp.roomname + '</p>'
-			html += '</div>'
-		}
-		$(".room .body").html(html);
-		$(".room .body div").click(function(){
-			socket.emit("room.join",$(this).data("roomname"));
-		});
-	}
-	
-	
-	function joinRoom(room,iscreate){
-		var html = "";
-		html += "玩家一:" + room.play1.uname +"&nbsp;胜场：" + room.play1.win + "<br>PK<br>";
-		if(room.play2){
-			html += "玩家二:" + room.play2.uname +"&nbsp;胜场：" + room.play2.win;
-		}
-		if(iscreate){
-			html += "<button>开始游戏</button>";
-		}
-		html += "<button>退出游戏</button>";
-		
-		$(".room .body").html(html);
-	}
-	function showChat(chat,isme){
-			if(isme){
-				$(".chat .body ul").append("<li style='text-align: right;'>" + chat.msg + ":" + chat.uname + "</li>");
-			}else{
-				$(".chat .body ul").append("<li>" + chat.uname + ":" + chat.msg + "</li>");
+
+		function getStatus(status) {
+			if(status == 1) {
+				return "在线";
+			} else if(status == 2) {
+				return "准备中";
+			} else if(status == 3) {
+				return "游戏中";
+			} else {
+				return "";
 			}
 		}
-</script>
+
+		function initRoom(rooms) {
+			var html = "";
+			for(var i = 0; i < rooms.length; i++) {
+				var temp = rooms[i];
+				html += '<div data-roomname=' + temp.roomname + '>';
+				html += '<img src="img/room.png"/>'
+				html += '<p>' + temp.roomname + '</p>'
+				html += '</div>'
+			}
+			$(".room .body").html(html);
+			$(".room .body div").click(function() {
+				socket.emit("room.join", $(this).data("roomname"));
+			});
+		}
+
+//		function appendChat(chat, me) {
+//			me = me || false;
+//
+//			var html = '';
+//			if(me) {
+//				html = "<li style ='text-align:right;'>" + chat.msg + ":" + chat.uname + "</li>";
+//			} else {
+//				html = "<li>" + chat.uname + ":" + chat.msg + "</li>";
+//			}
+//			$(".chat .body ul").append(html);
+//		}
+
+		function joinRoom(room, iscreate) {
+			var html = "";
+			html += "玩家一:" + room.play1.uname + "&nbsp;胜场：" + room.play1.win + "<br>PK<br>";
+			if(room.play2) {
+				html += "玩家二:" + room.play2.uname + "&nbsp;胜场：" + room.play2.win;
+			}
+			if(iscreate) {
+				html += "<button id='gamestart'>开始游戏</button>";
+			}
+			html += "<button id='leaveroom'>退出游戏</button>";
+
+			$(".room .body").html(html);
+			$("#gamestart").click(function() {
+				socket.emit("game.start");
+			});
+			$("#leaveroom").click(function() {
+
+			});
+		}
+			function showChat(chat,isme){
+					if(isme){
+						$(".chat .body ul").append("<li style='text-align: right;'>" + chat.msg + ":" + chat.uname + "</li>");
+					}else{
+						$(".chat .body ul").append("<li>" + chat.uname + ":" + chat.msg + "</li>");
+					}
+				}
+	</script>
+
 </html>

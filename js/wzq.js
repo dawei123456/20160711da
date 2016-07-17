@@ -1,10 +1,10 @@
 var pen = null;//声明一个全局变量
 var offset = null;
 var flag = 1;//1执白，2执黑
-var status = "run";//run表示下棋
+var data = [];//1表示白子，2表示黑子
 
 //游戏开始
-function gameInit(id,_flag){
+function gameInit(id){
 	var html = '<canvas id="five" width="935px" height="600px"></canvas>';
 	if(id){
 		$("#" + id).append(html);
@@ -15,6 +15,7 @@ function gameInit(id,_flag){
 	pen = $("#five").get(0).getContext("2d");
 	
 	//划横线
+	
 	for (var i = 0;i < 30;i++) {
 		pen.beginPath();
 		if(i == 1 || i ==10){
@@ -28,11 +29,11 @@ function gameInit(id,_flag){
 		pen.lineTo(935,i * 55);
 		pen.stroke();
 		pen.closePath();
-	}
+		}
 	
 	//画竖线
 	for (var j = 0;j < 30;j++) {
-		pen.beginPath();
+	    pen.beginPath();
 		//if(j == 3 || j ==12)
 		if(j == 1 || j ==16){
 			pen.lineWidth = 4;
@@ -56,22 +57,6 @@ function gameInit(id,_flag){
 		data.push(temp);
 	}
 	offset = $("#five").offset();
-	if( _flag == 1){
-		flag = 1;
-		status = "run";
-		showChat({
-			uname : "系统提示",
-			msg : "系统分配，先手执白"
-		},true);
-	}else{
-		flag = 2;
-		status = "wait";
-		showChat({
-			uname : "系统提示",
-			msg : "系统分配，后手执黑"
-		},true);
-	}
-	
 	
 	$("#five").mousedown(function(event){
 		//等待状态
@@ -87,12 +72,9 @@ function gameInit(id,_flag){
 		//var col = Math.floor(x/40);//列
 		
 		//画圆
-		//如果已存在，则不画
-		if(data[row][col] != -1){
-			return;
-		}
-		data[row][col] = flag;
-		pen.beginPath();
+		if(data[row][col] = -1){
+		   data[row][col] = flag;
+		   pen.beginPath();
 		if(flag == 1){
 			pen.fillStyle = "#FFFFFF";
 		}else{
@@ -102,31 +84,12 @@ function gameInit(id,_flag){
 		pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
 		pen.fill();
 		pen.closePath();
-		
-		//交换信息
-		socket.emit("game.changedata",{
-			row : row,
-			col : col,
-			flag : flag
-		});
-		status = "wait";
-		gameOver(row,col,flag);
-//		flag = flag == 1 ? 2 : 1;
+		}
+	    gameOver(row,col,flag);
+	    flag = flag == 1 ? 2 : 1;
 	});
 }
 
-function drawFive(row,col,flag){
-	data[row][col] = flag;
-	pen.beginPath();
-	if( flag == 1){
-		pen.fillStyle = "#FFFFFF";
-	}else{
-		pen.fillStyle = "#000000"
-	}
-	pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
-	pen.fill();
-	pen.closePath();
-}
 
 function gameOver(row,col,flag){
 	//上下找

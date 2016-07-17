@@ -187,3 +187,11 @@ body,html{
 #createroom:hover{
 	color: green;
 }
+.game{
+	position: absolute;
+	left: 0px;
+	top:0px;
+}
+.game canvas{
+	background-color: #8FBC8F;
+}
