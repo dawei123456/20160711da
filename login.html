@@ -13,6 +13,7 @@
 		</div> 
 	</body>
 	<script type="text/javascript">
+	//localStorage用于持久化的本地存储，除非主动删除数据，否则数据是永远不会过期的。
 	//如果localStorage里面有user，那么直接跳转到main.html
 	//如果没有，那么玩家重新创建一个user
 		$(function(){
@@ -29,7 +30,14 @@
 					total : 0,
 					status : 0
 				};
-				localStorage.setItem("user",JSON.stringify(user));
+				
+				localStorage.setItem("user",JSON.stringify(user));//序列化
+				//JSON.stringify(value [, replacer] [, space]) 
+				//value：是必须要的字段。就是你输入的对象，比如数组啊，类啊等等。 
+				//replacer：这个是可选的。它又分为2种方式，一种是方法，第二种是数组。 
+				//space：很好理解，用什么来做分隔符的。
+				
+				
 				window.location.href = "main.html";
 			});
 		});

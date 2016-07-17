@@ -41,7 +41,7 @@ var users = [{
 	total: 0,
 	status: 2
 }]
-var room = [
+var rooms = [
 {roomname:'01'},
 {roomname:'02'},
 {roomname:'03'},

@@ -9,7 +9,7 @@
 		<script>
 		$(function(){
 			var socket = io('http://localhost:3000',{
-				autoConnect : false,
+				autoConnect : false,//当数据库连接异常中断时，是否自动重新连接？
 				reconnection : false
 			});
 			socket.on('connect', function() {

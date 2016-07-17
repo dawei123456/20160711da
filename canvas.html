@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>canvas测试 </title>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				var pen = $("#hb").get(0).getContext("2d");
+				//画线
+				pen.strokeStyle = "#FF1493";//线的颜色
+				pen.lineCap = "round";//线段样式
+				pen.lineWidth = 6;
+				pen.lineJoin = "round";//两线相交处是圆角
+				pen.moveTo(40,40);//起点
+				pen.lineTo(260,40);//终点
+				//pen.stroke();//画出轮廓
+				
+				pen.moveTo(260,40);
+				pen.lineTo(40,260);
+				//pen.stroke();//画出轮廓
+				
+				pen.moveTo(40,40);
+				pen.lineTo(260,260);
+				//pen.stroke();//画出轮廓
+				
+				pen.moveTo(40,260);
+				pen.lineTo(260,260);
+				pen.stroke();//画出轮廓
+			});
+		</script>
+	</head>
+	<body>
+		<canvas id="hb"width="300px" height="300px" style="background-color: #8FBC8F;"></canvas>
+	</body>
+</html>

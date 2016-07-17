@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Penarc</title>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js" ></script>
+		<script type="text/javascript">
+			var pen = null;
+			$(function(){
+				pen = $("#hd").get(0).getContext("2d");
+				
+				var lg = pen.createRadialGradient(150,150,5,150,150,100);
+				//context.createRadialGradient(x0,y0,r0,x1,y1,r1);
+				//x0渐变的开始圆的x坐标
+				//y0渐变的开始圆的y坐标
+				//r0开始圆的半径
+				//x1渐变的结束圆的x坐标
+				//y1渐变的结束圆的y坐标
+				//r1结束圆的半径
+				//var lg = pen.createLinearGradient(0,0,300,300);
+				lg.addColorStop(0,"#fff");
+				lg.addColorStop(0.5,"yellow");
+				lg.addColorStop(1,"green");
+				pen.fillStyle = lg;
+				
+				pen.beginPath();
+				pen.arc(150,150,149,0,Math.PI);
+				//括号内第一个和第二个参数,代表圆心坐标.
+				//第三个参数是圆的半径.
+				//第四个参数代表圆周起始位置.
+				//第五个参数是弧长Math.PI*2就是整个圆,Math.PI是半圆
+				pen.arc(150,150,50,Math.PI,2 * Math.PI);
+				pen.lineTo(300,150);
+				pen.fill();
+				pen.closePath();
+				
+				pen.font = "20px Georgia";
+				pen.strokeText("好好学习   天天向上",70,50);
+			});
+		</script>
+	</head>
+	<body>
+		<canvas id="hd" width="600px" height="600px" style="background-color: papayawhip;"></canvas>
+	</body>
+</html>
