@@ -58,6 +58,15 @@ body,html{
 	top: 70px;
 	left: 129px;
 }
+.main-con .userinfo h1{
+	margin:15px 0px;
+	padding:0px 0px;
+}
+.main-con .userinfo p{
+	margin:9px 0px;
+	padding:0px 0px;
+	font-size: 14px;
+}
 .main-con .online{
 	position: absolute;
 	width: 285px;
@@ -88,7 +97,7 @@ body,html{
 }
 .main-con .online .body{
 	height: 140px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 .main-con .online .body table{
 	width: 100%;
@@ -108,7 +117,7 @@ body,html{
 }
 .main-con .room .body{
 	height: 100px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 .main-con .room .body div{
 	float: left;
@@ -193,5 +202,6 @@ body,html{
 	top:0px;
 }
 .game canvas{
-	background-color: #8FBC8F;
+	background-color: rgb(158,217,158);
+	margin:0px 135px;
 }

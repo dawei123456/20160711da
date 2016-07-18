@@ -17,6 +17,7 @@
 				<h1></h1>
 				<p></p>
 				<p></p>
+				<p></p>
 			</div>
 			<div class="online">
 				<div class="head">
@@ -72,10 +73,12 @@
 			}
 			socket.open(); //连接服务器
 			socket.on('connect', function() {
+				user = JSON.parse(localStorage.getItem("user"));
 				user.id = socket.id; //为用户赋值
 				user.status = 1; //在线状态
-				socket.emit("user.online", user); //向服务器发送上线事件
+				
 				initUser(user);
+				socket.emit("user.online", user); //向服务器发送上线事件
 			});
 			socket.on("user.online", function(users) {
 				initOnline(users);
@@ -84,6 +87,9 @@
 				showChat(chat, false);
 			});
 			socket.on("room.rooms", function(rooms) {
+				initRoom(rooms);
+			});
+			socket.on("room.change", function(rooms) {
 				initRoom(rooms);
 			});
 			socket.on("room.exists", function() {
@@ -104,6 +110,17 @@
 			socket.on("game.changedata", function(data) {
 				drawFive(data.row, data.col, data.flag);
 				status = "run";
+			});
+			socket.on("game.over",function(user){
+				//清除棋盘
+				$("#game").html("");
+				initUser(user);
+				
+				//初始化数组
+				data = [];
+				
+				//保存用户的记录
+				localStorage.setItem("user",JSON.stringify(user));
 			});
 			$("#sendchat").click(function() {
 				var chat = {
@@ -127,8 +144,10 @@
 		});
 
 		function initUser(user) {
-			$(".userinfo h1").html(user.uname).next().html("ID:" + user.id)
-				.next().html("胜场：" + user.win + "胜率：" + (user.total ? user.win / user.total : 0) + "%");
+			$(".userinfo h1").html(user.uname).next()
+			.html("ID:" + user.id).next()
+			.html("胜场：" + user.win).next() 
+			.html("胜率：" + (user.total ? (user.win / user.total) * 100 : 0) + "%");
 			//如A=（B）？C：D
 			//表示B不为0吗(或B为真吗)?如果是，A=C；如果不是，A=D。 
 		}
@@ -138,8 +157,8 @@
 			for(var i = 0; i < users.length; i++) {
 				var temp = users[i];
 				html += '<tr>';
-				html += '<td>' + temp.uname + '</td>';
-				html += '<td>' + temp.id + '</td>';
+				html += '<td style = " color : green; font-weight : bolder;">' + temp.uname + '</td>';
+				html += '<td style = "font-size:14px;">' + temp.id + '</td>';
 				html += '<td>' + getStatus(temp.status) + '</td>';
 				html += '</tr>';
 			}
@@ -149,11 +168,11 @@
 
 		function getStatus(status) {
 			if(status == 1) {
-				return "在线";
+				return '<td style = "color :green">在线</td>';
 			} else if(status == 2) {
-				return "准备中";
+				return '<td style = "color :orange">准备中</td>';
 			} else if(status == 3) {
-				return "游戏中";
+				return '<td style = "color :red">游戏中</td>';
 			} else {
 				return "";
 			}
@@ -202,7 +221,7 @@
 				socket.emit("game.start");
 			});
 			$("#leaveroom").click(function() {
-
+                socket.emit("room.leave");
 			});
 		}
 			function showChat(chat,isme){
