@@ -193,17 +193,6 @@
 			});
 		}
 
-//		function appendChat(chat, me) {
-//			me = me || false;
-//
-//			var html = '';
-//			if(me) {
-//				html = "<li style ='text-align:right;'>" + chat.msg + ":" + chat.uname + "</li>";
-//			} else {
-//				html = "<li>" + chat.uname + ":" + chat.msg + "</li>";
-//			}
-//			$(".chat .body ul").append(html);
-//		}
 
 		function joinRoom(room, iscreate) {
 			var html = "";
@@ -212,9 +201,9 @@
 				html += "玩家二:" + room.play2.uname + "&nbsp;胜场：" + room.play2.win;
 			}
 			if(iscreate) {
-				html += "<button id='gamestart'>开始游戏</button>";
+				html += "<br><button id='gamestart' class='start'>开始游戏</button>";
 			}
-			html += "<button id='leaveroom'>退出游戏</button>";
+			html += "<br><button id='leaveroom' class='start'>退出游戏</button>";
 
 			$(".room .body").html(html);
 			$("#gamestart").click(function() {

@@ -118,6 +118,7 @@ body,html{
 .main-con .room .body{
 	height: 100px;
 	overflow-y: auto;
+	text-align: center;
 }
 .main-con .room .body div{
 	float: left;
@@ -198,10 +199,22 @@ body,html{
 }
 .game{
 	position: absolute;
-	left: 0px;
 	top:0px;
+	left:0px;
 }
 .game canvas{
-	background-color: rgb(158,217,158);
-	margin:0px 135px;
+	background-image: url(../img/pic247.jpg);
+	margin:23px 310px;
+	box-shadow: 0px 0px 20px #000000;
+	border-radius: 25px;
+	padding:40px 40px;
+}
+.start{
+	font-family:'game' ;
+	font-size: 12px;
+	border-radius: 5px;
+	border: 2px solid black;
+	height: 20px;
+	background-color: transparent;
+	margin:10px 10px;
 }

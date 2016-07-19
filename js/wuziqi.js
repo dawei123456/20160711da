@@ -5,7 +5,7 @@ var status = "run";//run表示下棋
 var data = [];//全局变量，所以要先定义
 //游戏开始
 function gameInit(id,_flag){
-	var html = '<canvas id="five" width="935px" height="600px"></canvas>';//935
+	var html = '<canvas id="five" width="480px" height="480px" ></canvas>';
 	if(id){
 		$("#" + id).append(html);
 	}else{
@@ -15,38 +15,37 @@ function gameInit(id,_flag){
 	pen = $("#five").get(0).getContext("2d");
 	
 	//划横线
-	for (var i = 0;i < 30;i++) {
+	for (var i = 0; i <= 12;i++) {
 		pen.beginPath();
-		pen.strokeStyle = "#f0dda6";
-		if(i == 1 || i ==10){
-			pen.lineWidth = 4;
+		pen.strokeStyle = "#000000";
+		if(i == 0 || i ==12){
+			pen.lineWidth = 8;
 			pen.strokeStyle = "#eb6427";
 		}else{
-			pen.lineWidth = 1;
+			pen.lineWidth = 0.5;
 		}
-//		pen.moveTo(0,i * 40);
-//		pen.lineTo(600,i * 40);
-		pen.moveTo(0,i * 55);
-		pen.lineTo(935,i * 55);
+		pen.moveTo(0,i * 40);
+		pen.lineTo(560,i * 40);
+//		pen.moveTo(0,i * 55);
+//		pen.lineTo(935,i * 55);
 		pen.stroke();
 		pen.closePath();
 	}
 	
 	//画竖线
-	for (var j = 0;j < 30;j++) {
+	for (var j = 0; j <= 12;j++) {
 		pen.beginPath();
-		pen.strokeStyle = "#f0dda6";
-		//if(j == 3 || j ==12)
-		if(j == 1 || j ==16){
-			pen.lineWidth = 4;
-			pen.strokeStyle = "#1a0223";
+		pen.strokeStyle = "#000000";
+		if(j == 0 || j ==12){
+			pen.lineWidth = 8;
+			pen.strokeStyle = "#eb6427";
 		}else{
-			pen.lineWidth = 1;
+			pen.lineWidth = 0.5;
 		}
-		pen.moveTo(j * 55,0);
-		pen.lineTo(j * 55,935);
-		//pen.moveTo(j * 40,0);
-		//pen.lineTo(j * 40,600);
+//		pen.moveTo(j * 55,0);
+//		pen.lineTo(j * 55,935);
+		pen.moveTo(j * 40,0);
+		pen.lineTo(j * 40,560);
 		pen.stroke();
 		pen.closePath();
 	}
@@ -85,10 +84,10 @@ function gameInit(id,_flag){
 		var x = event.clientX - offset.left;
 		var y = event.clientY - offset.top;
 		
-		var row = Math.floor(y/55);//行
-		var col = Math.floor(x/55);//列
-		//var row = Math.floor(y/40);//行
-		//var col = Math.floor(x/40);//列
+//		var row = Math.floor(y/55);//行
+//		var col = Math.floor(x/55);//列
+		var row = Math.floor(y/40);//行
+		var col = Math.floor(x/40);//列
 		
 		//画圆
 		//如果已存在，则不画
@@ -102,8 +101,8 @@ function gameInit(id,_flag){
 		}else{
 			pen.fillStyle = "#000000";
 		}
-		//pen.arc(col * 40 + 20,row * 40 + 20,15,0,2*Math.PI);
-		pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
+		pen.arc(col * 40 - 20,row * 40 - 20,15,0,2*Math.PI);
+		//pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
 		//pen.fillStyle = "darkgoldenrod";
 		pen.fill();
 		pen.closePath();
@@ -130,8 +129,8 @@ function drawFive(row,col,flag){
 	}else{
 		pen.fillStyle = "#000000"
 	}
-	//pen.arc(col * 40 + 20,row * 40 + 20,15,0,2*Math.PI);
-	pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
+	pen.arc(col * 40 - 20,row * 40 - 20,15,0,2*Math.PI);
+	//pen.arc(col * 55 + 27,row * 55 + 27,25,0,2*Math.PI);
 	pen.fill();
 	pen.closePath();
 }
